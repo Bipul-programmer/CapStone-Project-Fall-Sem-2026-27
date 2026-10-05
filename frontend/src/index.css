@@ -1,0 +1,580 @@
+/* =========================================================
+   NeuroQuest — Professional Design System
+   Lexend font (clinically proven to aid dyslexia readability)
+   Dark glass-morphism with structured color hierarchy
+   ========================================================= */
+
+/* ---- Google Fonts Fallback (if index.html embed fails) -- */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ----- CSS Custom Properties ----- */
+:root {
+  /* Typography */
+  --font-body: 'Lexend', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Background Layers */
+  --bg-base:      #07090f;
+  --bg-surface:   #0d1117;
+  --bg-elevated:  #161b27;
+  --bg-overlay:   #1c2333;
+
+  /* Glass fills */
+  --glass-1: rgba(255, 255, 255, 0.03);
+  --glass-2: rgba(255, 255, 255, 0.055);
+  --glass-3: rgba(255, 255, 255, 0.08);
+
+  /* Borders */
+  --border-faint:  rgba(255, 255, 255, 0.06);
+  --border-subtle: rgba(255, 255, 255, 0.10);
+  --border-medium: rgba(255, 255, 255, 0.16);
+  --border-focus:  #5b63f5;
+
+  /* Text */
+  --text-primary:   #f0f4ff;
+  --text-secondary: #9daec7;
+  --text-tertiary:  #5e7391;
+  --text-inverse:   #07090f;
+
+  /* Brand / Accent */
+  --accent:        #5b63f5;
+  --accent-hover:  #4a52e8;
+  --accent-glow:   rgba(91, 99, 245, 0.30);
+  --accent-subtle: rgba(91, 99, 245, 0.12);
+
+  /* Domain Colors — structured, non-garish */
+  --dyslexia:        #7c86f7;
+  --dyslexia-dim:    rgba(124, 134, 247, 0.14);
+  --dyslexia-border: rgba(124, 134, 247, 0.28);
+
+  --dysgraphia:        #2fcb96;
+  --dysgraphia-dim:    rgba(47, 203, 150, 0.13);
+  --dysgraphia-border: rgba(47, 203, 150, 0.28);
+
+  --dyscalculia:        #f5a623;
+  --dyscalculia-dim:    rgba(245, 166, 35, 0.13);
+  --dyscalculia-border: rgba(245, 166, 35, 0.28);
+
+  /* Risk Levels */
+  --risk-low:        #22c77a;
+  --risk-low-dim:    rgba(34, 199, 122, 0.12);
+  --risk-low-border: rgba(34, 199, 122, 0.30);
+
+  --risk-mod:        #f0b429;
+  --risk-mod-dim:    rgba(240, 180, 41, 0.12);
+  --risk-mod-border: rgba(240, 180, 41, 0.30);
+
+  --risk-high:        #f25c69;
+  --risk-high-dim:    rgba(242, 92, 105, 0.12);
+  --risk-high-border: rgba(242, 92, 105, 0.30);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 3px rgba(0,0,0,0.35);
+  --shadow-sm: 0 3px 10px rgba(0,0,0,0.40);
+  --shadow-md: 0 8px 28px rgba(0,0,0,0.50);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.60);
+  --shadow-accent: 0 6px 24px rgba(91, 99, 245, 0.35);
+
+  /* Radii */
+  --r-sm:  6px;
+  --r-md:  10px;
+  --r-lg:  16px;
+  --r-xl:  22px;
+  --r-2xl: 30px;
+  --r-full: 9999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.30, 1);
+  --ease-in:  cubic-bezier(0.70, 0, 0.84, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 140ms;
+  --dur-mid:  280ms;
+  --dur-slow: 450ms;
+}
+
+/* ---- Reset & Base ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 0% 0%,   rgba(91, 99, 245, 0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(47, 203, 150, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%,  rgba(245, 166, 35, 0.04) 0%, transparent 70%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.65;
+  /* Lexend benefits from generous letter-spacing for readability */
+  letter-spacing: 0.015em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
+p { color: var(--text-secondary); }
+button { font-family: var(--font-body); cursor: pointer; border: none; outline: none; }
+input, select, textarea { font-family: var(--font-body); }
+a { color: var(--accent); text-decoration: none; }
+
+/* ---- Scrollbar Styling ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-surface); }
+::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+/* ===========================================================
+   COMPONENT LIBRARY
+   =========================================================== */
+
+/* ---- Glass Cards ---- */
+.card {
+  background: var(--glass-1);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-md);
+  transition: border-color var(--dur-mid) var(--ease-out),
+              box-shadow  var(--dur-mid) var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--border-medium);
+}
+
+.card-elevated {
+  background: var(--glass-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Legacy alias (keep backwards compat) */
+.glass-panel {
+  background: var(--glass-1);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-md);
+}
+
+/* ---- Gradient Text ---- */
+.gradient-text-primary {
+  background: linear-gradient(130deg, #a8b4ff 0%, #7c86f7 45%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-brand {
+  background: linear-gradient(130deg, #7c86f7 0%, #2fcb96 50%, #f5a623 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---- Buttons ---- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(140deg, #6370f8 0%, #4a52e8 100%);
+  color: #ffffff;
+  padding: 11px 26px;
+  border-radius: var(--r-lg);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 16px rgba(91, 99, 245, 0.38);
+  transition:
+    transform     var(--dur-fast) var(--ease-out),
+    box-shadow    var(--dur-fast) var(--ease-out),
+    background    var(--dur-fast);
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(91, 99, 245, 0.50);
+  background: linear-gradient(140deg, #7380f9 0%, #5b63f5 100%);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(91, 99, 245, 0.35);
+}
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--glass-2);
+  color: var(--text-secondary);
+  padding: 10px 20px;
+  border-radius: var(--r-lg);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid var(--border-subtle);
+  transition:
+    background    var(--dur-fast),
+    color         var(--dur-fast),
+    border-color  var(--dur-fast),
+    transform     var(--dur-fast) var(--ease-out);
+}
+
+.btn-secondary:hover {
+  background: var(--glass-3);
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+  transform: translateY(-1px);
+}
+
+.btn-audio {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(124, 134, 247, 0.12);
+  color: var(--dyslexia);
+  border: 1px solid var(--dyslexia-border);
+  padding: 7px 14px;
+  border-radius: var(--r-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.btn-audio:hover {
+  background: rgba(124, 134, 247, 0.22);
+  color: #ffffff;
+  transform: scale(1.03);
+}
+
+/* ---- Form Controls ---- */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.input-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.custom-input {
+  background: rgba(7, 9, 15, 0.60);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  padding: 11px 14px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  width: 100%;
+  transition:
+    border-color var(--dur-fast),
+    background   var(--dur-fast),
+    box-shadow   var(--dur-fast);
+}
+
+.custom-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  background: rgba(7, 9, 15, 0.90);
+  box-shadow: 0 0 0 3px rgba(91, 99, 245, 0.20);
+}
+
+.custom-input::placeholder { color: var(--text-tertiary); }
+
+.custom-input option {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+/* ---- Domain Badges ---- */
+.domain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: var(--r-full);
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.domain-badge.DYSLEXIA {
+  background: var(--dyslexia-dim);
+  color: var(--dyslexia);
+  border: 1px solid var(--dyslexia-border);
+}
+.domain-badge.DYSGRAPHIA {
+  background: var(--dysgraphia-dim);
+  color: var(--dysgraphia);
+  border: 1px solid var(--dysgraphia-border);
+}
+.domain-badge.DYSCALCULIA {
+  background: var(--dyscalculia-dim);
+  color: var(--dyscalculia);
+  border: 1px solid var(--dyscalculia-border);
+}
+
+/* ---- Risk Badges ---- */
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.risk-badge.LOW_RISK {
+  background: var(--risk-low-dim);
+  color: var(--risk-low);
+  border: 1px solid var(--risk-low-border);
+}
+.risk-badge.MODERATE_TENDENCY {
+  background: var(--risk-mod-dim);
+  color: var(--risk-mod);
+  border: 1px solid var(--risk-mod-border);
+}
+.risk-badge.HIGH_RISK {
+  background: var(--risk-high-dim);
+  color: var(--risk-high);
+  border: 1px solid var(--risk-high-border);
+}
+
+/* ---- Progress Bar ---- */
+.progress-track {
+  width: 100%;
+  height: 5px;
+  background: var(--border-faint);
+  border-radius: var(--r-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: var(--r-full);
+  background: linear-gradient(90deg, var(--dyslexia), var(--dysgraphia), var(--dyscalculia));
+  transition: width 0.5s var(--ease-out);
+}
+
+/* ---- Choice Grid (Multiple Choice) ---- */
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 580px;
+  margin: 20px auto;
+}
+
+.choice-btn {
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--r-lg);
+  padding: 18px 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition:
+    transform     var(--dur-fast) var(--ease-out),
+    border-color  var(--dur-fast),
+    background    var(--dur-fast),
+    box-shadow    var(--dur-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-xs);
+}
+
+.choice-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--dyslexia);
+  background: rgba(124, 134, 247, 0.10);
+  box-shadow: 0 6px 20px rgba(124, 134, 247, 0.20);
+}
+
+.choice-btn.selected {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+/* ---- Canvas Containers ---- */
+.trace-canvas-container {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1.5px solid var(--border-subtle);
+  background: #050811;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.70), var(--shadow-sm);
+}
+
+.canvas-element {
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+/* ---- Disclaimer Banner ---- */
+.disclaimer-banner {
+  background: rgba(240, 180, 41, 0.06);
+  border: 1px solid rgba(240, 180, 41, 0.22);
+  border-radius: var(--r-lg);
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 0.84rem;
+  color: #fde58a;
+  line-height: 1.6;
+}
+
+/* ---- Section Divider ---- */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-faint);
+  margin: 28px 0;
+}
+
+/* ---- Skeleton Loader ---- */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-overlay) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-wave 1.6s infinite ease-in-out;
+  border-radius: var(--r-md);
+}
+
+@keyframes skeleton-wave {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---- Stat Chip ---- */
+.stat-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-faint);
+  border-radius: var(--r-lg);
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-chip strong {
+  font-size: 1.35rem;
+  color: var(--text-primary);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* ===========================================================
+   ANIMATIONS
+   =========================================================== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0   rgba(91, 99, 245, 0.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(91, 99, 245, 0); }
+  100% { box-shadow: 0 0 0 0   rgba(91, 99, 245, 0); }
+}
+
+.animate-pop-in  { animation: fadeUp  0.38s var(--ease-out) both; }
+.animate-fade-in { animation: fadeIn  0.32s var(--ease-out) both; }
+
+.pulse-target { animation: pulse-ring 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+/* ===========================================================
+   PRINT STYLES
+   =========================================================== */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+  .no-print { display: none !important; }
+  .card, .glass-panel {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: none !important;
+    color: #111827 !important;
+    -webkit-print-color-adjust: exact;
+  }
+  .gradient-text-primary, .gradient-text-brand {
+    -webkit-text-fill-color: #1e1b4b !important;
+  }
+}
+
+/* ===========================================================
+   UTILITY HELPERS
+   =========================================================== */
+.text-sm   { font-size: 0.85rem; }
+.text-xs   { font-size: 0.75rem; }
+.text-mono { font-family: var(--font-mono); }
+.fw-600    { font-weight: 600; }
+.fw-700    { font-weight: 700; }
+.fw-800    { font-weight: 800; }
+.text-muted    { color: var(--text-secondary); }
+.text-dim      { color: var(--text-tertiary); }
+.text-accent   { color: var(--accent); }
+.text-dyslexia { color: var(--dyslexia); }
+.text-dysgraphia { color: var(--dysgraphia); }
+.text-dyscalculia { color: var(--dyscalculia); }
+.text-center { text-align: center; }
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
