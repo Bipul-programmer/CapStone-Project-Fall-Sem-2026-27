@@ -32,10 +32,11 @@ target/
 
 # Python / ML Service
 __pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.coverage
-venv/
+*.pyc
+*.pyo
+*.pyd
+.Python
+ml_service/__pycache__/
 .venv/
-env/
+venv/
+*.egg-info/
