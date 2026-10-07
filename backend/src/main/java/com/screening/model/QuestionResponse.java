@@ -12,6 +12,9 @@ public class QuestionResponse {
     private int motorHesitationCount;
     private boolean reversalDetected;
     private double magnitudeDistance;
+    private String mlPrediction;
+    private Double mlConfidence;
+    private String mlModel;
 
     public QuestionResponse() {}
 
@@ -118,5 +121,29 @@ public class QuestionResponse {
 
     public void setMagnitudeDistance(double magnitudeDistance) {
         this.magnitudeDistance = magnitudeDistance;
+    }
+
+    public String getMlPrediction() {
+        return mlPrediction;
+    }
+
+    public void setMlPrediction(String mlPrediction) {
+        this.mlPrediction = mlPrediction;
+    }
+
+    public Double getMlConfidence() {
+        return mlConfidence;
+    }
+
+    public void setMlConfidence(Double mlConfidence) {
+        this.mlConfidence = mlConfidence;
+    }
+
+    public String getMlModel() {
+        return mlModel;
+    }
+
+    public void setMlModel(String mlModel) {
+        this.mlModel = mlModel;
     }
 }

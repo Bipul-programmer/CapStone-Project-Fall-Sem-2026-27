@@ -72,6 +72,9 @@ export default function AssessmentEngine({ session, onCompleted }) {
       motorHesitationCount: Number(answerData.hesitationCount ?? 0),
       reversalDetected:    Boolean(answerData.reversalDetected),
       magnitudeDistance:   Number(answerData.magnitudeDistance ?? 0),
+      mlPrediction:        answerData.mlPrediction || null,
+      mlConfidence:        answerData.mlConfidence ? Number(answerData.mlConfidence) : null,
+      mlModel:             answerData.mlModel || null,
     };
 
     const nextResponses = [...responses, responsePayload];

@@ -23,6 +23,7 @@ public class AssessmentReport {
     private String overallSummary;
 
     private Map<String, Double> parameterScores = new HashMap<>();
+    private Map<String, Object> dysgraphiaMlDetails = new HashMap<>();
     private List<String> clinicalObservations = new ArrayList<>();
     private List<String> actionableRecommendations = new ArrayList<>();
     private Instant assessedAt = Instant.now();
@@ -123,6 +124,14 @@ public class AssessmentReport {
 
     public void setParameterScores(Map<String, Double> parameterScores) {
         this.parameterScores = parameterScores;
+    }
+
+    public Map<String, Object> getDysgraphiaMlDetails() {
+        return dysgraphiaMlDetails;
+    }
+
+    public void setDysgraphiaMlDetails(Map<String, Object> dysgraphiaMlDetails) {
+        this.dysgraphiaMlDetails = dysgraphiaMlDetails;
     }
 
     public List<String> getClinicalObservations() {

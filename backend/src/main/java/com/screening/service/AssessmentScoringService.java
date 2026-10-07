@@ -96,6 +96,10 @@ public class AssessmentScoringService {
 
         double totalScore = 0.0;
         double totalJitter = 0.0;
+        boolean mlDysgraphiaDetected = false;
+        double mlConfidence = 0.0;
+        String mlModelName = "MobileNetV2 (Özkum et al. 2025)";
+        boolean slownessDetected = false;
 
         for (QuestionResponse r : responses) {
             double itemScore = r.isCorrect() ? 100.0 : 0.0;
@@ -109,6 +113,30 @@ public class AssessmentScoringService {
                 } else {
                     itemScore = 100.0;
                 }
+
+                // Research paper factor 1: Writing slowness / motor hesitation (> 15s)
+                if (r.getTimeTakenMs() > 15000) {
+                    slownessDetected = true;
+                    itemScore = Math.max(25.0, itemScore - 15.0);
+                }
+            }
+
+            // MobileNetV2 Deep Learning Dysgraphia Biomarker (Özkum et al. 2025)
+            if (r.getMlPrediction() != null && !r.getMlPrediction().isBlank()) {
+                mlModelName = r.getMlModel() != null ? r.getMlModel() : mlModelName;
+                mlConfidence = r.getMlConfidence() != null ? r.getMlConfidence() : 0.0;
+
+                Map<String, Object> mlInfo = new HashMap<>();
+                mlInfo.put("prediction", r.getMlPrediction());
+                mlInfo.put("confidence", mlConfidence);
+                mlInfo.put("model", mlModelName);
+                mlInfo.put("paperReference", "Özkum, Burukanlı, & Yumuşak (2025)");
+                report.setDysgraphiaMlDetails(mlInfo);
+
+                if ("Potential Dysgraphia".equalsIgnoreCase(r.getMlPrediction())) {
+                    mlDysgraphiaDetected = true;
+                    itemScore = Math.min(itemScore, 45.0);
+                }
             }
 
             totalScore += itemScore;
@@ -118,19 +146,32 @@ public class AssessmentScoringService {
         double avgScore = Math.round((totalScore / responses.size()) * 10.0) / 10.0;
         report.setDysgraphiaScore(avgScore);
 
-        if (avgScore >= 80.0) {
+        if (avgScore >= 80.0 && !mlDysgraphiaDetected) {
             report.setDysgraphiaRisk(RiskLevel.LOW_RISK);
             report.setDysgraphiaSummary("Adequate fine motor trajectory stability, smooth stroke kinematics, and consistent visual-spatial sentence organization.");
-        } else if (avgScore >= 50.0) {
+            if (mlConfidence > 0) {
+                report.getClinicalObservations().add("Deep Learning (MobileNetV2): Handwriting strokes classified as Low Potential Dysgraphia with " + Math.round(mlConfidence) + "% model confidence (Özkum et al. 2025).");
+            }
+        } else if (avgScore >= 50.0 && !mlDysgraphiaDetected) {
             report.setDysgraphiaRisk(RiskLevel.MODERATE_TENDENCY);
             report.setDysgraphiaSummary("Noticeable stroke instability, motor fatigue, or word spacing/alignment errors under sequential drawing and writing tasks.");
             report.getClinicalObservations().add("Dysgraphia: Fine motor path deviations and spatial spacing inconsistency observed during interactive motor tasks.");
+            if (slownessDetected) {
+                report.getClinicalObservations().add("Dysgraphia (Özkum et al. Factor): Prolonged execution latency and writing slowness observed during cursive trace tasks.");
+            }
             report.getActionableRecommendations().add("Encourage fine-motor grip strengthening games (play-dough, tweezers, beaded crafts) and ruled line guidance.");
         } else {
             report.setDysgraphiaRisk(RiskLevel.HIGH_RISK);
             report.setDysgraphiaSummary("High kinematic tremor/jitter, marked path deviation, and persistent difficulty maintaining visual-spatial sequence alignment.");
             report.getClinicalObservations().add("Dysgraphia: High trajectory jitter score, motor hesitation, and significant spatial sequencing friction.");
+            if (mlDysgraphiaDetected) {
+                report.getClinicalObservations().add("Deep Learning Biomarker (MobileNetV2 - Özkum et al. 2025): Handwriting image classified as Potential Dysgraphia (" + Math.round(mlConfidence) + "% confidence), reflecting abnormal stroke curvature, ink density variation, and motor dyspraxia.");
+            }
+            if (slownessDetected) {
+                report.getClinicalObservations().add("Dysgraphia (Özkum et al. Factor): Marked slowness in letter formation and execution fatigue.");
+            }
             report.getActionableRecommendations().add("Consult an occupational therapist (OT) specializing in pediatric fine-motor coordination and dysgraphia accommodations.");
+            report.getActionableRecommendations().add("Utilize adaptive writing grips, slant boards, and multi-sensory stroke tracing exercises to reduce letter formation fatigue.");
         }
     }
 

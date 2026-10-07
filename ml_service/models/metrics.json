@@ -1,0 +1,44 @@
+{
+  "model": "MobileNet_v2",
+  "reference_paper": "Detection and Analysis of Dysgraphia Using Deep Learning Models (\u00d6zkum, Burukanl\u0131, Yumu\u015fak, 2025)",
+  "hyperparameters": {
+    "batch_size": 4,
+    "learning_rate": 0.0007,
+    "optimizer": "SGD",
+    "momentum": 0.9,
+    "epochs": 50,
+    "best_epoch": 27,
+    "input_resolution": "224x224 RGB"
+  },
+  "dataset_summary": {
+    "total_samples": 249,
+    "train_samples": 168,
+    "val_samples": 39,
+    "test_samples": 42
+  },
+  "test_results": {
+    "accuracy": 95.23809523809523,
+    "precision": 94.73684210526315,
+    "recall": 94.73684210526315,
+    "f1_score": 94.73684210526315,
+    "mcc": 90.38901601830663,
+    "confusion_matrix": {
+      "tp": 18,
+      "tn": 22,
+      "fp": 1,
+      "fn": 1
+    }
+  },
+  "paper_comparison": {
+    "paper_accuracy": 85.0,
+    "paper_precision": 85.35,
+    "paper_recall": 85.0,
+    "paper_f1": 84.96,
+    "paper_mcc": 70.35,
+    "our_accuracy": 95.24,
+    "our_precision": 94.74,
+    "our_recall": 94.74,
+    "our_f1": 94.74,
+    "our_mcc": 90.39
+  }
+}

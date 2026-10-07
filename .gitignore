@@ -29,3 +29,13 @@ node_modules/
 dist/
 target/
 *.log
+
+# Python / ML Service
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+venv/
+.venv/
+env/
